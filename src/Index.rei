@@ -1,5 +1,7 @@
 type t = pri int;
 
+let zero: t;
+
 let fromZeroBased: int => t;
 let fromOneBased: int => t;
 

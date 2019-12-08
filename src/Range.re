@@ -69,7 +69,7 @@ let explode = (measure, v) => {
     [
       create(
         ~startLine=Index.fromZeroBased(endLine),
-        ~startCharacter=Index.fromZeroBased(0),
+        ~startCharacter=Index.zero,
         ~endCharacter=Index.fromZeroBased(endCharacter),
         ~endLine=Index.fromZeroBased(endLine),
         (),

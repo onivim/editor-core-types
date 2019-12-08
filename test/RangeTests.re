@@ -20,10 +20,10 @@ describe("Range", ({describe, _}) =>
       "returns same range when start line/endline are the same", ({expect}) => {
         let emptyRange = 
           Range.create(
-            ~startLine=Index.fromZeroBased(0),
-            ~startCharacter=Index.fromZeroBased(0),
-            ~endLine=Index.fromZeroBased(0),
-            ~endCharacter=Index.fromZeroBased(0),
+            ~startLine=Index.zero,
+            ~startCharacter=Index.zero,
+            ~endLine=Index.zero,
+            ~endCharacter=Index.zero,
             (),
           );
 

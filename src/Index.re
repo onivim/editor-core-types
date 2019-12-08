@@ -1,6 +1,8 @@
 [@deriving show({with_path: false})]
 type t = int; // 0-based internally
 
+let zero = 0;
+
 let fromZeroBased = i => i;
 let fromOneBased = i =>
   if (i == 0) {
