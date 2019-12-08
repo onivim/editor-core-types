@@ -1,0 +1,17 @@
+{
+  "source": "./package.json",
+  "scripts": {
+    "run": "esy '@test' x testRunner"
+  },
+  "override": {
+	  "build": ["dune build --root . -j4"],
+	  "dependencies": {
+		  "@opam/odoc": "*",
+		  "@reason-native/rely": "2.2.0"
+	  },
+	  "install": [
+		  "esy-installer editor-core-types.install",
+		  "esy-installer editor-core-types-test.install"
+		]
+  }
+}

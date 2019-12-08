@@ -1,0 +1,7 @@
+(library
+    (name EditorCoreTypesTest)
+    (public_name editor-core-types-test)
+    (flags (:standard (-w -39)))
+    (ocamlopt_flags -linkall -g)
+    (libraries rely.lib)
+)

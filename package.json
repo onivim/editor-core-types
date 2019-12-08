@@ -1,0 +1,30 @@
+{
+  "name": "editor-core-types",
+  "version": "0.1.0",
+  "description": "Core Editor Types for Onivim 2 and related projects",
+  "license": "MIT",
+  "scripts": {
+    "format": "esy dune build @fmt --auto-promote"
+  },
+  "esy": {
+    "build": ["refmterr dune build -p editor-core-types"],
+    "buildsInSource": "_build",
+    "install": [
+        "esy-installer editor-core-types.install"
+    ]
+  },
+  "resolutions": {
+    "@opam/ocaml-migrate-parsetree": "1.3.1",
+    "@opam/biniou": "1.2.0",
+    "@opam/easy-format": "1.3.1"
+  },
+  "dependencies": {
+    "@opam/dune": "*",
+    "@esy-ocaml/reason": "^3.4.0",
+    "refmterr": "*",
+    "ocaml": ">=4.7.0 <4.9.0"
+  },
+  "devDependencies": {
+    "ocaml": "~4.7.0"
+  }
+}

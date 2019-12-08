@@ -1,0 +1,3 @@
+(library
+    (name EditorCoreTypes)
+    (public_name editor-core-types))
