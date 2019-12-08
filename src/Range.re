@@ -18,24 +18,6 @@ let create = (~startLine, ~startCharacter, ~endLine, ~endCharacter, ()) =>
     (),
   );
 
-let ofInt0 = (~startLine, ~startCharacter, ~endLine, ~endCharacter, ()) =>
-  create(
-    ~startLine=ZeroBasedIndex(startLine),
-    ~startCharacter=ZeroBasedIndex(startCharacter),
-    ~endLine=ZeroBasedIndex(endLine),
-    ~endCharacter=ZeroBasedIndex(endCharacter),
-    (),
-  );
-
-let ofInt1 = (~startLine, ~startCharacter, ~endLine, ~endCharacter, ()) =>
-  create(
-    ~startLine=OneBasedIndex(startLine),
-    ~startCharacter=OneBasedIndex(startCharacter),
-    ~endLine=OneBasedIndex(endLine),
-    ~endCharacter=OneBasedIndex(endCharacter),
-    (),
-  );
-
 let contains = (v: t, position: Position.t) => {
   let l0 = Index.toInt0(v.startPosition.line);
   let c0 = Index.toInt0(v.startPosition.character);
@@ -47,15 +29,6 @@ let contains = (v: t, position: Position.t) => {
 
   (pl == l0 && pc >= c0 || pl > l0) && (pl == l1 && pc <= c1 || pl < l1);
 };
-
-let zero =
-  create(
-    ~startLine=ZeroBasedIndex(0),
-    ~startCharacter=ZeroBasedIndex(0),
-    ~endLine=ZeroBasedIndex(0),
-    ~endCharacter=ZeroBasedIndex(0),
-    (),
-  );
 
 let toZeroBasedPair = (v: Position.t) => {
   (Index.toZeroBasedInt(v.line), Index.toZeroBasedInt(v.character));

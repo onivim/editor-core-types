@@ -17,13 +17,22 @@ let r = (startLine, startCharacter, endLine, endCharacter) =>
 describe("Range", ({describe, _}) =>
   describe("explode", ({test, _}) => {
     test(
-      "returns same range when start line/endline are the same", ({expect}) =>
-      validateRanges(
-        expect,
-        Range.explode(constantMeasure(1), Range.zero),
-        [Range.zero],
-      )
-    );
+      "returns same range when start line/endline are the same", ({expect}) => {
+        let emptyRange = 
+          Range.create(
+            ~startLine=ZeroBasedIndex(0),
+            ~startCharacter=ZeroBasedIndex(0),
+            ~endLine=ZeroBasedIndex(0),
+            ~endCharacter=ZeroBasedIndex(0),
+            (),
+          );
+
+        validateRanges(
+          expect,
+          Range.explode(constantMeasure(1), emptyRange),
+          [emptyRange],
+        )
+      });
 
     test("simple two-line case", ({expect}) => {
       let range = r(1, 5, 2, 2);

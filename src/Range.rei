@@ -22,28 +22,6 @@ let create:
   ) =>
   t;
 
-let ofInt0:
-  (
-    ~startLine: int,
-    ~startCharacter: int,
-    ~endLine: int,
-    ~endCharacter: int,
-    unit
-  ) =>
-  t;
-
-let ofInt1:
-  (
-    ~startLine: int,
-    ~startCharacter: int,
-    ~endLine: int,
-    ~endCharacter: int,
-    unit
-  ) =>
-  t;
-
-let zero: t;
-
 /*
  * explode(range, measure) takes a Range.t and a measurement function (int => int),
  * and expands a multiple-line range into a list of ranges, where there there is
