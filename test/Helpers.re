@@ -3,28 +3,20 @@ open EditorCoreTypes;
 let validateRange =
     (
       expect: Rely__DefaultMatchers.matchers(unit),
-      actualRange: Range.t,
-      expectedRange: Range.t,
+      actual: Range.t,
+      expected: Range.t,
     ) => {
-  expect.int(Index.toZeroBased(actualRange.startPosition.line)).toBe(
-    Index.toZeroBased(expectedRange.startPosition.line),
-  );
-  expect.int(Index.toZeroBased(actualRange.endPosition.line)).toBe(
-    Index.toZeroBased(expectedRange.endPosition.line),
-  );
-  expect.int(Index.toZeroBased(actualRange.startPosition.column)).toBe(
-    Index.toZeroBased(expectedRange.startPosition.column),
-  );
-  expect.int(Index.toZeroBased(actualRange.endPosition.column)).toBe(
-    Index.toZeroBased(expectedRange.endPosition.column),
-  );
+  expect.int(actual.start.line :> int).toBe(expected.start.line :> int);
+  expect.int(actual.stop.line :> int).toBe(expected.stop.line :> int);
+  expect.int(actual.start.column :> int).toBe(expected.start.column :> int);
+  expect.int(actual.stop.column :> int).toBe(expected.stop.column :> int);
 };
 
 let validateRanges =
     (
       expect: Rely__DefaultMatchers.matchers(unit),
-      actualRanges,
-      expectedRanges,
+      actual,
+      expected,
     ) => {
-  List.iter2(validateRange(expect), actualRanges, expectedRanges);
+  List.iter2(validateRange(expect), actual, expected);
 };

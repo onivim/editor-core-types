@@ -3,15 +3,12 @@ open TestFramework;
 
 open Helpers;
 
-let constantMeasure = (length, _: int) => length;
+let constantMeasure = (length, _: Index.t) => length;
 
-let r = (startLine, startCharacter, endLine, endCharacter) =>
+let createRange = (startLine, startColumn, stopLine, stopColumn) =>
   Range.create(
-    ~startLine=Index.fromZeroBased(startLine),
-    ~startCharacter=Index.fromZeroBased(startCharacter),
-    ~endLine=Index.fromZeroBased(endLine),
-    ~endCharacter=Index.fromZeroBased(endCharacter),
-    (),
+    ~start=Location.create(~line=Index.fromZeroBased(startLine), ~column=Index.fromZeroBased(startColumn)),
+    ~stop=Location.create(~line=Index.fromZeroBased(stopLine), ~column=Index.fromZeroBased(stopColumn)),
   );
 
 describe("Range", ({describe, _}) =>
@@ -20,11 +17,8 @@ describe("Range", ({describe, _}) =>
       "returns same range when start line/endline are the same", ({expect}) => {
         let emptyRange = 
           Range.create(
-            ~startLine=Index.zero,
-            ~startCharacter=Index.zero,
-            ~endLine=Index.zero,
-            ~endCharacter=Index.zero,
-            (),
+            ~start=Location.create(~line=Index.zero, ~column=Index.zero),
+            ~stop=Location.create(~line=Index.zero, ~column=Index.zero),
           );
 
         validateRanges(
@@ -35,22 +29,22 @@ describe("Range", ({describe, _}) =>
       });
 
     test("simple two-line case", ({expect}) => {
-      let range = r(1, 5, 2, 2);
+      let range = createRange(1, 5, 2, 2);
 
       validateRanges(
         expect,
         Range.explode(constantMeasure(10), range),
-        [r(1, 5, 1, 9), r(2, 0, 2, 2)],
+        [createRange(1, 5, 1, 9), createRange(2, 0, 2, 2)],
       );
     });
 
     test("uses range function", ({expect}) => {
-      let range = r(1, 5, 3, 2);
+      let range = createRange(1, 5, 3, 2);
 
       validateRanges(
         expect,
         Range.explode(constantMeasure(10), range),
-        [r(1, 5, 1, 9), r(2, 0, 2, 9), r(3, 0, 3, 2)],
+        [createRange(1, 5, 1, 9), createRange(2, 0, 2, 9), createRange(3, 0, 3, 2)],
       );
     });
   })

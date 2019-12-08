@@ -1,119 +1,76 @@
 [@deriving show({with_path: false})]
 type t = {
-  startPosition: Location.t,
-  endPosition: Location.t,
+  start: Location.t,
+  stop: Location.t,
 };
 
-let createFromPositions = (~startPosition, ~endPosition, ()) => {
-  startPosition,
-  endPosition,
+let create = (~start, ~stop) => {
+  start,
+  stop,
 };
 
-let ofPositions = createFromPositions;
-
-let create = (~startLine, ~startCharacter, ~endLine, ~endCharacter, ()) =>
-  createFromPositions(
-    ~startPosition=Location.create(~line=startLine, ~column=startCharacter),
-    ~endPosition=Location.create(~line=endLine, ~column=endCharacter),
-    (),
-  );
-
-let contains = (v: t, position: Location.t) => {
-  let l0 = v.startPosition.line;
-  let c0 = v.startPosition.column;
-  let l1 = v.endPosition.line;
-  let c1 = v.endPosition.column;
-
-  let pl = position.line;
-  let pc = position.column;
-
-  (pl == l0 && pc >= c0 || pl > l0) && (pl == l1 && pc <= c1 || pl < l1);
-};
-
-let toZeroBasedPair = (v: Location.t) => {
-  (Index.toZeroBased(v.line), Index.toZeroBased(v.column));
-};
-
-let explode = (measure, v) => {
-  let (startLine, startCharacter) = v.startPosition |> toZeroBasedPair;
-  let (endLine, endCharacter) = v.endPosition |> toZeroBasedPair;
-
-  if (startLine == endLine) {
-    [v];
+let explode = (measure, range) => {
+  if (range.start.line == range.stop.line) {
+    [range];
   } else {
-    let idx = ref(startLine);
-
     let ranges = ref([]);
+    let pushRange = (~start, ~stop) =>
+      ranges := [create(~start, ~stop), ...ranges^];
 
-    while (idx^ < endLine) {
-      let i = idx^;
+    let i = ref(range.start.line);
+    while (i^ < range.stop.line) {
+      let startColumn = i^ == range.start.line ? range.start.column : Index.zero;
+      let stopColumn = measure(i^) |> max(1) |> Index.fromOneBased;
 
-      let startCharacter = i == startLine ? startCharacter : 0;
-      let endCharacter = max(0, measure(i) - 1);
+        pushRange(
+          ~start=Location.create(~line=i^, ~column=startColumn),
+          ~stop=Location.create(~line=i^, ~column=stopColumn),
+        );
 
-      ranges :=
-        [
-          create(
-            ~startLine=Index.fromZeroBased(i),
-            ~startCharacter=Index.fromZeroBased(startCharacter),
-            ~endCharacter=Index.fromZeroBased(endCharacter),
-            ~endLine=Index.fromZeroBased(i),
-            (),
-          ),
-          ...ranges^,
-        ];
-
-      incr(idx);
+      i := Index.(i^ + 1);
     };
 
-    [
-      create(
-        ~startLine=Index.fromZeroBased(endLine),
-        ~startCharacter=Index.zero,
-        ~endCharacter=Index.fromZeroBased(endCharacter),
-        ~endLine=Index.fromZeroBased(endLine),
-        (),
-      ),
-      ...ranges^,
-    ]
-    |> List.rev;
+    pushRange(
+      ~start=Location.create(~line=range.stop.line, ~column=Index.zero),
+      ~stop=Location.create(~line=range.stop.line, ~column=range.stop.column),
+    );
+
+    ranges^ |> List.rev;
   };
 };
 
-let toHash = (ranges: list(t)) => {
-  let rangeHash: Hashtbl.t(int, list(t)) = Hashtbl.create(100);
-  List.iter(
-    r => {
-      let line = Index.toZeroBased(r.startPosition.line);
+let toHash = ranges => {
+  let hash = Hashtbl.create(100);
 
-      let newVal =
-        switch (Hashtbl.find_opt(rangeHash, line)) {
-        | Some(v) => [r, ...v]
-        | None => [r]
+  List.iter(
+    range => {
+      let line = range.start.line;
+      let lineRanges =
+        switch (Hashtbl.find_opt(hash, line)) {
+        | Some(ranges) => ranges
+        | None => []
         };
 
-      Hashtbl.add(rangeHash, line, newVal);
+      Hashtbl.add(hash, line, [range, ...lineRanges]);
     },
     ranges,
   );
 
-  rangeHash;
+  hash;
 };
 
-let equals = (a: t, b: t) => {
-  Location.equals(a.startPosition, b.startPosition)
-  && Location.equals(a.endPosition, b.endPosition);
-};
+let equals = (a, b) =>
+  Location.(a.start == b.start && a.stop == b.stop);
 
-let isInRange = (range: t, position: Location.t) => {
+let contains = (position: Location.t, range) => {
   (
-    position.line == range.startPosition.line
-    && position.column >= range.startPosition.column
-    || position.line > range.startPosition.line
+    position.line == range.start.line
+    && position.column >= range.start.column
+    || position.line > range.start.line
   )
   && (
-    position.line == range.endPosition.line
-    && position.column <= range.endPosition.column
-    || position.line < range.endPosition.line
+    position.line == range.stop.line
+    && position.column <= range.stop.column
+    || position.line < range.stop.line
   );
 };

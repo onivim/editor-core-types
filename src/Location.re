@@ -8,3 +8,5 @@ let create = (~line, ~column) => {line, column};
 
 let equals = (a, b) =>
   Index.(a.line == b.line && a.column == b.column);
+
+let (==) = equals;
