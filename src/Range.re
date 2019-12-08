@@ -1,7 +1,7 @@
 [@deriving show({with_path: false})]
 type t = {
-  startPosition: Position.t,
-  endPosition: Position.t,
+  startPosition: Location.t,
+  endPosition: Location.t,
 };
 
 let createFromPositions = (~startPosition, ~endPosition, ()) => {
@@ -13,12 +13,12 @@ let ofPositions = createFromPositions;
 
 let create = (~startLine, ~startCharacter, ~endLine, ~endCharacter, ()) =>
   createFromPositions(
-    ~startPosition=Position.create(startLine, startCharacter),
-    ~endPosition=Position.create(endLine, endCharacter),
+    ~startPosition=Location.create(startLine, startCharacter),
+    ~endPosition=Location.create(endLine, endCharacter),
     (),
   );
 
-let contains = (v: t, position: Position.t) => {
+let contains = (v: t, position: Location.t) => {
   let l0 = v.startPosition.line;
   let c0 = v.startPosition.character;
   let l1 = v.endPosition.line;
@@ -30,7 +30,7 @@ let contains = (v: t, position: Position.t) => {
   (pl == l0 && pc >= c0 || pl > l0) && (pl == l1 && pc <= c1 || pl < l1);
 };
 
-let toZeroBasedPair = (v: Position.t) => {
+let toZeroBasedPair = (v: Location.t) => {
   (Index.toZeroBased(v.line), Index.toZeroBased(v.character));
 };
 
@@ -101,11 +101,11 @@ let toHash = (ranges: list(t)) => {
 };
 
 let equals = (a: t, b: t) => {
-  Position.equals(a.startPosition, b.startPosition)
-  && Position.equals(a.endPosition, b.endPosition);
+  Location.equals(a.startPosition, b.startPosition)
+  && Location.equals(a.endPosition, b.endPosition);
 };
 
-let isInRange = (range: t, position: Position.t) => {
+let isInRange = (range: t, position: Location.t) => {
   (
     position.line == range.startPosition.line
     && position.character >= range.startPosition.character

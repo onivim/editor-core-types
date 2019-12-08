@@ -1,16 +1,16 @@
 [@deriving show({with_path: false})]
 type t = {
-  startPosition: Position.t,
-  endPosition: Position.t,
+  startPosition: Location.t,
+  endPosition: Location.t,
 };
 
-let contains: (t, Position.t) => bool;
+let contains: (t, Location.t) => bool;
 
 let createFromPositions:
-  (~startPosition: Position.t, ~endPosition: Position.t, unit) => t;
+  (~startPosition: Location.t, ~endPosition: Location.t, unit) => t;
 
 let ofPositions:
-  (~startPosition: Position.t, ~endPosition: Position.t, unit) => t;
+  (~startPosition: Location.t, ~endPosition: Location.t, unit) => t;
 
 let create:
   (
@@ -41,4 +41,4 @@ let toHash: list(t) => Hashtbl.t(int, list(t));
 
 let equals: (t, t) => bool;
 
-let isInRange: (t, Position.t) => bool;
+let isInRange: (t, Location.t) => bool;
