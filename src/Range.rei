@@ -62,3 +62,5 @@ let explode: (int => int, t) => list(t);
 let toHash: list(t) => Hashtbl.t(int, list(t));
 
 let equals: (t, t) => bool;
+
+let isInRange: (t, Position.t) => bool;

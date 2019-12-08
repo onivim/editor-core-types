@@ -131,3 +131,16 @@ let equals = (a: t, b: t) => {
   Position.equals(a.startPosition, b.startPosition)
   && Position.equals(a.endPosition, b.endPosition);
 };
+
+let isInRange = (range: t, position: Position.t) => {
+  (
+    position.line == range.startPosition.line
+    && position.character >= range.startPosition.character
+    || position.line > range.startPosition.line
+  )
+  && (
+    position.line == range.endPosition.line
+    && position.character <= range.endPosition.character
+    || position.line < range.endPosition.line
+  );
+};
