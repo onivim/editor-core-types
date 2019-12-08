@@ -1,0 +1,1 @@
+EditorCoreTypesTest.TestFramework.cli();
