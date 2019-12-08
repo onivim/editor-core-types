@@ -19,19 +19,19 @@ let create = (~startLine, ~startCharacter, ~endLine, ~endCharacter, ()) =>
   );
 
 let contains = (v: t, position: Position.t) => {
-  let l0 = Index.toInt0(v.startPosition.line);
-  let c0 = Index.toInt0(v.startPosition.character);
-  let l1 = Index.toInt0(v.endPosition.line);
-  let c1 = Index.toInt0(v.endPosition.character);
+  let l0 = Index.toZeroBased(v.startPosition.line);
+  let c0 = Index.toZeroBased(v.startPosition.character);
+  let l1 = Index.toZeroBased(v.endPosition.line);
+  let c1 = Index.toZeroBased(v.endPosition.character);
 
-  let pl = Index.toInt0(position.line);
-  let pc = Index.toInt0(position.character);
+  let pl = Index.toZeroBased(position.line);
+  let pc = Index.toZeroBased(position.character);
 
   (pl == l0 && pc >= c0 || pl > l0) && (pl == l1 && pc <= c1 || pl < l1);
 };
 
 let toZeroBasedPair = (v: Position.t) => {
-  (Index.toZeroBasedInt(v.line), Index.toZeroBasedInt(v.character));
+  (Index.toZeroBased(v.line), Index.toZeroBased(v.character));
 };
 
 let explode = (measure, v) => {
@@ -54,10 +54,10 @@ let explode = (measure, v) => {
       ranges :=
         [
           create(
-            ~startLine=ZeroBasedIndex(i),
-            ~startCharacter=ZeroBasedIndex(startCharacter),
-            ~endCharacter=ZeroBasedIndex(endCharacter),
-            ~endLine=ZeroBasedIndex(i),
+            ~startLine=Index.fromZeroBased(i),
+            ~startCharacter=Index.fromZeroBased(startCharacter),
+            ~endCharacter=Index.fromZeroBased(endCharacter),
+            ~endLine=Index.fromZeroBased(i),
             (),
           ),
           ...ranges^,
@@ -68,10 +68,10 @@ let explode = (measure, v) => {
 
     [
       create(
-        ~startLine=ZeroBasedIndex(endLine),
-        ~startCharacter=ZeroBasedIndex(0),
-        ~endCharacter=ZeroBasedIndex(endCharacter),
-        ~endLine=ZeroBasedIndex(endLine),
+        ~startLine=Index.fromZeroBased(endLine),
+        ~startCharacter=Index.fromZeroBased(0),
+        ~endCharacter=Index.fromZeroBased(endCharacter),
+        ~endLine=Index.fromZeroBased(endLine),
         (),
       ),
       ...ranges^,
@@ -84,7 +84,7 @@ let toHash = (ranges: list(t)) => {
   let rangeHash: Hashtbl.t(int, list(t)) = Hashtbl.create(100);
   List.iter(
     r => {
-      let line = Index.toZeroBasedInt(r.startPosition.line);
+      let line = Index.toZeroBased(r.startPosition.line);
 
       let newVal =
         switch (Hashtbl.find_opt(rangeHash, line)) {

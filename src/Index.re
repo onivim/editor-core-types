@@ -1,25 +1,15 @@
 [@deriving show({with_path: false})]
-type t =
-  | ZeroBasedIndex(int)
-  | OneBasedIndex(int);
+type t = int; // 0-based internally
 
-let toZeroBasedInt = (pos: t) =>
-  switch (pos) {
-  | ZeroBasedIndex(n) => n
-  | OneBasedIndex(n) => n - 1
+let fromZeroBased = i => i;
+let fromOneBased = i =>
+  if (i == 0) {
+    raise(Invalid_argument("One-based index cannot be zero"));
+  } else {
+    i - 1;
   };
 
-let toInt0 = toZeroBasedInt;
+let toZeroBased = i => i;
+let toOneBased = i => i + 1;
 
-let toOneBasedInt = (pos: t) =>
-  switch (pos) {
-  | ZeroBasedIndex(n) => n + 1
-  | OneBasedIndex(n) => n
-  };
-
-let toInt1 = toOneBasedInt;
-
-let ofInt0 = i => ZeroBasedIndex(i);
-let ofInt1 = i => OneBasedIndex(i);
-
-let equals = (a: t, b: t) => toInt0(a) == toInt0(b);
+let equals = (==);

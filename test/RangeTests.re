@@ -7,10 +7,10 @@ let constantMeasure = (length, _: int) => length;
 
 let r = (startLine, startCharacter, endLine, endCharacter) =>
   Range.create(
-    ~startLine=ZeroBasedIndex(startLine),
-    ~startCharacter=ZeroBasedIndex(startCharacter),
-    ~endLine=ZeroBasedIndex(endLine),
-    ~endCharacter=ZeroBasedIndex(endCharacter),
+    ~startLine=Index.fromZeroBased(startLine),
+    ~startCharacter=Index.fromZeroBased(startCharacter),
+    ~endLine=Index.fromZeroBased(endLine),
+    ~endCharacter=Index.fromZeroBased(endCharacter),
     (),
   );
 
@@ -20,10 +20,10 @@ describe("Range", ({describe, _}) =>
       "returns same range when start line/endline are the same", ({expect}) => {
         let emptyRange = 
           Range.create(
-            ~startLine=ZeroBasedIndex(0),
-            ~startCharacter=ZeroBasedIndex(0),
-            ~endLine=ZeroBasedIndex(0),
-            ~endCharacter=ZeroBasedIndex(0),
+            ~startLine=Index.fromZeroBased(0),
+            ~startCharacter=Index.fromZeroBased(0),
+            ~endLine=Index.fromZeroBased(0),
+            ~endCharacter=Index.fromZeroBased(0),
             (),
           );
 
