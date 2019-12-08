@@ -19,13 +19,13 @@ let create = (~startLine, ~startCharacter, ~endLine, ~endCharacter, ()) =>
   );
 
 let contains = (v: t, position: Position.t) => {
-  let l0 = Index.toZeroBased(v.startPosition.line);
-  let c0 = Index.toZeroBased(v.startPosition.character);
-  let l1 = Index.toZeroBased(v.endPosition.line);
-  let c1 = Index.toZeroBased(v.endPosition.character);
+  let l0 = v.startPosition.line;
+  let c0 = v.startPosition.character;
+  let l1 = v.endPosition.line;
+  let c1 = v.endPosition.character;
 
-  let pl = Index.toZeroBased(position.line);
-  let pc = Index.toZeroBased(position.character);
+  let pl = position.line;
+  let pc = position.character;
 
   (pl == l0 && pc >= c0 || pl > l0) && (pl == l1 && pc <= c1 || pl < l1);
 };

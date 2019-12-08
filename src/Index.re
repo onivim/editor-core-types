@@ -15,3 +15,14 @@ let toZeroBased = i => i;
 let toOneBased = i => i + 1;
 
 let equals = (==);
+
+let (==) = (==);
+let (>) = (>);
+let (>=) = (>=);
+let (<) = (<);
+let (<=) = (<=);
+
+let (+) = (+);
+let (-) = (-);
+let (*) = (*);
+let (/) = (/);
