@@ -12,11 +12,11 @@ let validateRange =
   expect.int(Index.toZeroBased(actualRange.endPosition.line)).toBe(
     Index.toZeroBased(expectedRange.endPosition.line),
   );
-  expect.int(Index.toZeroBased(actualRange.startPosition.character)).toBe(
-    Index.toZeroBased(expectedRange.startPosition.character),
+  expect.int(Index.toZeroBased(actualRange.startPosition.column)).toBe(
+    Index.toZeroBased(expectedRange.startPosition.column),
   );
-  expect.int(Index.toZeroBased(actualRange.endPosition.character)).toBe(
-    Index.toZeroBased(expectedRange.endPosition.character),
+  expect.int(Index.toZeroBased(actualRange.endPosition.column)).toBe(
+    Index.toZeroBased(expectedRange.endPosition.column),
   );
 };
 

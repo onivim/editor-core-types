@@ -13,25 +13,25 @@ let ofPositions = createFromPositions;
 
 let create = (~startLine, ~startCharacter, ~endLine, ~endCharacter, ()) =>
   createFromPositions(
-    ~startPosition=Location.create(startLine, startCharacter),
-    ~endPosition=Location.create(endLine, endCharacter),
+    ~startPosition=Location.create(~line=startLine, ~column=startCharacter),
+    ~endPosition=Location.create(~line=endLine, ~column=endCharacter),
     (),
   );
 
 let contains = (v: t, position: Location.t) => {
   let l0 = v.startPosition.line;
-  let c0 = v.startPosition.character;
+  let c0 = v.startPosition.column;
   let l1 = v.endPosition.line;
-  let c1 = v.endPosition.character;
+  let c1 = v.endPosition.column;
 
   let pl = position.line;
-  let pc = position.character;
+  let pc = position.column;
 
   (pl == l0 && pc >= c0 || pl > l0) && (pl == l1 && pc <= c1 || pl < l1);
 };
 
 let toZeroBasedPair = (v: Location.t) => {
-  (Index.toZeroBased(v.line), Index.toZeroBased(v.character));
+  (Index.toZeroBased(v.line), Index.toZeroBased(v.column));
 };
 
 let explode = (measure, v) => {
@@ -108,12 +108,12 @@ let equals = (a: t, b: t) => {
 let isInRange = (range: t, position: Location.t) => {
   (
     position.line == range.startPosition.line
-    && position.character >= range.startPosition.character
+    && position.column >= range.startPosition.column
     || position.line > range.startPosition.line
   )
   && (
     position.line == range.endPosition.line
-    && position.character <= range.endPosition.character
+    && position.column <= range.endPosition.column
     || position.line < range.endPosition.line
   );
 };

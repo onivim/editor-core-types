@@ -1,11 +1,10 @@
 [@deriving show({with_path: false})]
 type t = {
   line: Index.t,
-  character: Index.t,
+  column: Index.t,
 };
 
-let create = (line, character) => {line, character};
+let create = (~line, ~column) => {line, column};
 
-let equals = (a: t, b: t) => {
-  Index.equals(a.line, b.line) && Index.equals(a.character, b.character);
-};
+let equals = (a, b) =>
+  Index.(a.line == b.line && a.column == b.column);
