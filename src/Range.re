@@ -127,3 +127,7 @@ let toHash = (ranges: list(t)) => {
   rangeHash;
 };
 
+let equals = (a: t, b: t) => {
+  Position.equals(a.startPosition, b.startPosition)
+  && Position.equals(a.endPosition, b.endPosition);
+};
