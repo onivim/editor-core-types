@@ -74,3 +74,6 @@ let contains = (position: Location.t, range) => {
     || position.line < range.stop.line
   );
 };
+
+let toString = ({start, stop}) =>
+  Printf.sprintf("Range - start: %s end: %s", Location.toString(start), Location.toString(stop));

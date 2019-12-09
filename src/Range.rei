@@ -31,3 +31,5 @@ let toHash: list(t) => Hashtbl.t(Index.t, list(t));
 let equals: (t, t) => bool;
 
 let contains: (Location.t, t) => bool;
+
+let toString: t => string;
