@@ -24,7 +24,7 @@ let (<=) = (<=);
 
 let (+) = (+);
 let (-) = (-);
-let (*) = (*);
+let ( * ) = ( * );
 let (/) = (/);
 
 let toString = string_of_int;

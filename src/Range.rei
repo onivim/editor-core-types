@@ -4,12 +4,7 @@ type t = {
   stop: Location.t,
 };
 
-let create:
-  (
-    ~start: Location.t,
-    ~stop: Location.t,
-  ) =>
-  t;
+let create: (~start: Location.t, ~stop: Location.t) => t;
 
 /*
  * explode(range, measure) takes a Range.t and a measurement function (int => int),

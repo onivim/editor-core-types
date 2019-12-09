@@ -4,12 +4,9 @@ type t = {
   stop: Location.t,
 };
 
-let create = (~start, ~stop) => {
-  start,
-  stop,
-};
+let create = (~start, ~stop) => {start, stop};
 
-let explode = (measure, range) => {
+let explode = (measure, range) =>
   if (range.start.line == range.stop.line) {
     [range];
   } else {
@@ -19,13 +16,14 @@ let explode = (measure, range) => {
 
     let i = ref(range.start.line);
     while (i^ < range.stop.line) {
-      let startColumn = i^ == range.start.line ? range.start.column : Index.zero;
+      let startColumn =
+        i^ == range.start.line ? range.start.column : Index.zero;
       let stopColumn = measure(i^) |> max(1) |> Index.fromOneBased;
 
-        pushRange(
-          ~start=Location.create(~line=i^, ~column=startColumn),
-          ~stop=Location.create(~line=i^, ~column=stopColumn),
-        );
+      pushRange(
+        ~start=Location.create(~line=i^, ~column=startColumn),
+        ~stop=Location.create(~line=i^, ~column=stopColumn),
+      );
 
       i := Index.(i^ + 1);
     };
@@ -37,7 +35,6 @@ let explode = (measure, range) => {
 
     ranges^ |> List.rev;
   };
-};
 
 let toHash = ranges => {
   let hash = Hashtbl.create(100);
@@ -59,8 +56,7 @@ let toHash = ranges => {
   hash;
 };
 
-let equals = (a, b) =>
-  Location.(a.start == b.start && a.stop == b.stop);
+let equals = (a, b) => Location.(a.start == b.start && a.stop == b.stop);
 
 let contains = (position: Location.t, range) => {
   (
@@ -76,4 +72,8 @@ let contains = (position: Location.t, range) => {
 };
 
 let toString = ({start, stop}) =>
-  Printf.sprintf("Range - start: %s end: %s", Location.toString(start), Location.toString(stop));
+  Printf.sprintf(
+    "Range - start: %s end: %s",
+    Location.toString(start),
+    Location.toString(stop),
+  );

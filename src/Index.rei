@@ -18,7 +18,7 @@ let (<=): (t, t) => bool;
 
 let (+): (t, int) => t;
 let (-): (t, int) => t;
-let (*): (t, int) => t;
+let ( * ): (t, int) => t;
 let (/): (t, int) => t;
 
 let toString: t => string;
