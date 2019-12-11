@@ -1,3 +1,4 @@
+[@deriving show]
 type t = pri int;
 
 let zero: t;

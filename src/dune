@@ -1,3 +1,4 @@
 (library
     (name EditorCoreTypes)
-    (public_name editor-core-types))
+    (public_name editor-core-types)
+    (preprocess (pps ppx_deriving.show)))
